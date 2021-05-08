@@ -18,7 +18,7 @@ db.clients = require('./client.model')(sequelize, Sequelize);
 
 db.cities.hasMany(db.clients, {as: 'cities'});
 db.clients.belongsTo(db.cities, {
-  foreignKey: 'city_id',
+  foreignKey: 'cityId',
   as: 'city',
 });
 
