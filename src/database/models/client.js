@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
       });
     }
+
+    static get fillable() {
+      return ['name', 'sex', 'birthdate', 'cityId'];
+    }
   }
   Client.init(
     {

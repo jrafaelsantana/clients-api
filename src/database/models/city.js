@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       City.hasMany(models.Client);
     }
+
+    static get fillable() {
+      return ['name', 'state'];
+    }
   }
 
   City.init(

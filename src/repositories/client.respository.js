@@ -1,4 +1,5 @@
 const {City, Client} = require('../database/models');
+const _ = require('lodash');
 
 class ClientRepository {
   static async getById(id) {
@@ -39,9 +40,11 @@ class ClientRepository {
     await Client.destroy({where: {id}});
   }
 
-  static async updateName(id, name) {
-    const resource = await Client.findByPk(id);
-    resource.name = name;
+  static async update(id, city) {
+    let resource = await Client.findByPk(id);
+    const data = _.pick(city, City.fillable);
+
+    resource = {...resource, ...data};
 
     const newResource = await resource.save();
     return newResource;
