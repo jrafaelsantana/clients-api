@@ -1,7 +1,9 @@
 const {City, Client} = require('../database/models');
+const Op = require('sequelize').Op;
+const _ = require('lodash');
 
-class CityRepository {
-  static async getById(id) {
+const CityRepository = {
+  async getById(id) {
     const resource = await City.findByPk(id, {
       include: [
         {
@@ -10,9 +12,9 @@ class CityRepository {
       ],
     });
     return resource;
-  }
+  },
 
-  static async search({name, state}) {
+  async search({name, state}) {
     const options = {
       where: {},
       include: [
@@ -23,21 +25,23 @@ class CityRepository {
     };
 
     if (name) {
-      options.where.name = name;
+      options.where.name = {[Op.like]: `%${name}%`};
     }
 
     if (state) {
-      options.where.state = state;
+      options.where.state = {[Op.like]: `%${state}%`};
     }
 
     const resources = await City.findAll(options);
     return resources;
-  }
+  },
 
-  static async insert(city) {
-    const resource = await City.create(city);
+  async insert(city) {
+    const data = _.pick(city, City.fillable);
+    const resource = await City.create(data);
+
     return resource;
-  }
-}
+  },
+};
 
 module.exports = CityRepository;

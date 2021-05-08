@@ -1,8 +1,8 @@
-const {ClientRepository} = require('../repositories');
+const {ClientRepository, CityRepository} = require('../repositories');
 const AppError = require('../utils/AppError');
 
-class ClientService {
-  static async getById(id) {
+const ClientService = {
+  async getById(id) {
     try {
       const resource = await ClientRepository.getById(id);
 
@@ -18,27 +18,33 @@ class ClientService {
 
       throw new AppError(500, 'Internal error', error);
     }
-  }
+  },
 
-  static async search({name}) {
+  async search({name}) {
     try {
       const resources = await ClientRepository.search({name});
       return resources;
     } catch (error) {
       throw new AppError(500, 'Internal error', error);
     }
-  }
+  },
 
-  static async insert(client) {
+  async insert(client) {
     try {
+      const city = await CityRepository.getById(client.cityId);
+
+      if (!city) {
+        throw new AppError(400, 'City not exists');
+      }
+
       const resource = await ClientRepository.insert(client);
       return resource;
     } catch (error) {
       throw new AppError(500, 'Internal error', error);
     }
-  }
+  },
 
-  static async delete(id) {
+  async delete(id) {
     try {
       const resource = await ClientRepository.getById(id);
 
@@ -54,9 +60,9 @@ class ClientService {
 
       throw new AppError(500, 'Internal error', error);
     }
-  }
+  },
 
-  static async updateName(id, name) {
+  async updateName(id, name) {
     try {
       const resource = await ClientRepository.getById(id);
 
@@ -74,7 +80,7 @@ class ClientService {
 
       throw new AppError(500, 'Internal error', error);
     }
-  }
-}
+  },
+};
 
 module.exports = ClientService;

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Client.init(
     {
       name: DataTypes.STRING,
-      sex: DataTypes.ENUM,
+      sex: DataTypes.ENUM('MALE', 'FEMALE'),
       birthdate: DataTypes.DATE,
       cityId: DataTypes.INTEGER,
     },

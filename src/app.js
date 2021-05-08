@@ -1,5 +1,4 @@
 const express = require('express');
-const httpStatus = require('http-status');
 const routes = require('./routes/v1');
 const {ResponseAPI} = require('./utils/ResponseAPI');
 
@@ -10,13 +9,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/v1', routes);
 app.use((req, res, next) => {
-  next(
-    ResponseAPI(res).error(
-      'INVALID_RESOURCE',
-      'Not found',
-      httpStatus.NOT_FOUND,
-    ),
-  );
+  next(ResponseAPI(res).error('INVALID_RESOURCE', 'Not found', 404));
 });
 
 module.exports = app;

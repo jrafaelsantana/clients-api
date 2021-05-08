@@ -1,8 +1,9 @@
 const {City, Client} = require('../database/models');
+const Op = require('sequelize').Op;
 const _ = require('lodash');
 
-class ClientRepository {
-  static async getById(id) {
+const ClientRepository = {
+  async getById(id) {
     const resource = await Client.findByPk(id, {
       include: [
         {
@@ -11,9 +12,9 @@ class ClientRepository {
       ],
     });
     return resource;
-  }
+  },
 
-  static async search({name}) {
+  async search({name}) {
     const options = {
       where: {},
       include: [
@@ -24,23 +25,25 @@ class ClientRepository {
     };
 
     if (name) {
-      options.where.name = name;
+      options.where.name = {[Op.like]: `%${name}%`};
     }
 
     const resources = await Client.findAll(options);
     return resources;
-  }
+  },
 
-  static async insert(client) {
-    const resource = await Client.create(client);
+  async insert(client) {
+    const data = _.pick(client, Client.fillable);
+    const resource = await Client.create(data);
+
     return resource;
-  }
+  },
 
-  static async delete(id) {
+  async delete(id) {
     await Client.destroy({where: {id}});
-  }
+  },
 
-  static async update(id, client) {
+  async update(id, client) {
     let resource = await Client.findByPk(id);
     const data = _.pick(client, Client.fillable);
 
@@ -48,7 +51,7 @@ class ClientRepository {
 
     const newResource = await resource.save();
     return newResource;
-  }
-}
+  },
+};
 
 module.exports = ClientRepository;
