@@ -40,9 +40,9 @@ class ClientRepository {
     await Client.destroy({where: {id}});
   }
 
-  static async update(id, city) {
+  static async update(id, client) {
     let resource = await Client.findByPk(id);
-    const data = _.pick(city, City.fillable);
+    const data = _.pick(client, Client.fillable);
 
     resource = {...resource, ...data};
 
