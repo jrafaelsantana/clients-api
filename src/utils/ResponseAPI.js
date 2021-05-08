@@ -3,8 +3,8 @@
 const ResponseAPI = {
   ResponseAPI(response) {
     return {
-      success(data) {
-        return response.json({
+      success(data, statusCode = 200) {
+        return response.status(statusCode).json({
           status: 'OK',
           result: data || null,
           error: null,

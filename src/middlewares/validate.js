@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const {ResponseAPI} = require('../utils/ResponseAPI');
 
@@ -15,13 +14,7 @@ const validate = (schema) => (req, res, next) => {
       .map((details) => details.message)
       .join(', ');
 
-    return next(
-      new ResponseAPI(res).error(
-        'INVALID_RESOURCE',
-        errorMessage,
-        httpStatus.BAD_REQUEST,
-      ),
-    );
+    return next(ResponseAPI(res).error('INVALID_REQUEST', errorMessage, 400));
   }
 
   Object.assign(req, value);
