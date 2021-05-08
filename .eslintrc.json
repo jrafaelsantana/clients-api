@@ -10,6 +10,7 @@
   },
   "rules": {
     "linebreak-style": 0,
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "new-cap": "off"
   }
 }
