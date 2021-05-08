@@ -43,14 +43,12 @@ const ClientRepository = {
     await Client.destroy({where: {id}});
   },
 
-  async update(id, client) {
-    let resource = await Client.findByPk(id);
-    const data = _.pick(client, Client.fillable);
+  async update(id, data) {
+    const resource = await Client.findByPk(id);
+    resource.name = data.name;
+    await resource.save();
 
-    resource = {...resource, ...data};
-
-    const newResource = await resource.save();
-    return newResource;
+    return resource;
   },
 };
 

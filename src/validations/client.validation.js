@@ -8,12 +8,12 @@ const ClientValidation = {
       birthdate: Joi.date().iso().required(),
       cityId: Joi.number().required(),
     }),
+  },
 
-    updateClient: {
-      body: Joi.object().keys({
-        name: Joi.string().required(),
-      }),
-    },
+  updateClient: {
+    body: Joi.object().keys({
+      name: Joi.string().required(),
+    }),
   },
 };
 

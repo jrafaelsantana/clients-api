@@ -40,6 +40,10 @@ const ClientService = {
       const resource = await ClientRepository.insert(client);
       return resource;
     } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
+
       throw new AppError(500, 'Internal error', error);
     }
   },
@@ -74,6 +78,7 @@ const ClientService = {
 
       return updated;
     } catch (error) {
+      console.log(error);
       if (error instanceof AppError) {
         throw error;
       }
